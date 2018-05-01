@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import netgame.common.Hub;
 import pkgCore.Action;
+import pkgCore.GamePlay;
 import pkgCore.Table;
 import pkgEnum.eAction;
 import pkgEnum.eGameType;
@@ -11,6 +12,7 @@ import pkgEnum.eGameType;
 public class GameHub extends Hub {
 
 	private Table HubPokerTable = null;
+	private GamePlay HubGamePlay = null;
 	private eGameType eGameType = null;
 
 	public GameHub(int port) throws IOException {
@@ -47,8 +49,10 @@ public class GameHub extends Hub {
 			case GameState:
 				//TODO: Implement this
 				break;
-			case StartGame:
-				//TODO: Implement this
+			case StartGameBlackJack:
+				//TODO: Implement this	
+				eGameType = eGameType.BLACKJACK;
+
 				break;
 			case Draw:
 				//TODO: Implement this

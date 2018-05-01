@@ -35,10 +35,10 @@ public class Table implements Serializable {
 		return hmTablePlayer;
 	}
 
-	public ArrayList<Player> GetTablePlayers() {
-
-		return new ArrayList<Player>(hmTablePlayer.values());
-	}
+//	public ArrayList<Player> GetTablePlayers() {
+//
+//		return new ArrayList<Player>(hmTablePlayer.values());
+//	}
 	
 	public ArrayList<iPlayer> GetTablePlayers(UUID PlayerID)
 	{

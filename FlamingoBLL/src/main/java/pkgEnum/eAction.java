@@ -2,5 +2,5 @@ package pkgEnum;
 
 public enum eAction {
 
-	Draw, Fold, Bet, Raise, Sit, Leave, StartGame, Deal, GameState, TableState, ScoreGame;
+	Draw, Fold, Bet, Raise, Sit, Leave, StartGameBlackJack, StartGamePoker, Deal, GameState, TableState, ScoreGame;
 }

@@ -38,6 +38,7 @@ import pkgCore.GamePlay;
 import pkgCore.Player;
 import pkgCore.Table;
 import pkgEnum.eAction;
+import pkgInterfaces.iPlayer;
 
 public class BlackJackController implements Initializable {
 	private Flamingo FlamingoGame;
@@ -294,8 +295,8 @@ public class BlackJackController implements Initializable {
 
 			boolean bCurrentPlayerSeated = false;
 
-			for (Player TablePlayer : t.GetTablePlayers()) {
-				if (FlamingoGame.getAppPlayer().getPlayerID().equals(TablePlayer.getPlayerID())) {
+			for (iPlayer TablePlayer : t.GetTablePlayers(FlamingoGame.getAppPlayer().getPlayerID())) {
+				if (TablePlayer.isME()) {
 					bCurrentPlayerSeated = true;
 				}
 				else

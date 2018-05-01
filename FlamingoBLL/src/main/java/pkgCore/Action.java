@@ -19,18 +19,17 @@ public class Action implements Serializable {
 	@XmlElement
 	private Player ActPlayer;
 	
-	@XmlElement
-	private eGameType eGameType;
+
 	
 	public Action()
 	{
 		
 	}
-	public Action(eAction eAction, Player player, eGameType eGameType) {
+	public Action(eAction eAction, Player player ) {
 		super();
 		this.eAction = eAction;
 		this.ActPlayer = player;
-		this.eGameType = eGameType;
+	 
 	}
 	public eAction geteAction() {
 		return eAction;
@@ -44,9 +43,7 @@ public class Action implements Serializable {
 	public void setActPlayer(Player actPlayer) {
 		ActPlayer = actPlayer;
 	}
-	public eGameType geteGameType() {
-		return eGameType;
-	}
+ 
 
 
 	
