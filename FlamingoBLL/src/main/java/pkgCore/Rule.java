@@ -8,6 +8,7 @@ import pkgEnum.eCardDestination;
 import pkgEnum.eCardNo;
 import pkgEnum.eCardVisibility;
 import pkgEnum.eGameType;
+import pkgEnum.eDrawCount;
 
 public class Rule  implements Serializable  {
 
@@ -35,7 +36,7 @@ public class Rule  implements Serializable  {
 			CommunityCardsMin = 0;
 			CommunityCardsMax = 0;
 			PossibleHandCombinations = 0;
-			hmCardDraw.put(0, new CardDraw(eCardNo.FIRST,eCardDestination.PLAYER,eCardVisibility.EVERYONE));
+			hmCardDraw.put(eDrawCount.DEFAULT, new CardDraw(eCardNo.FIRST,eCardDestination.PLAYER,eCardVisibility.EVERYONE));
 			
 			
 			break;

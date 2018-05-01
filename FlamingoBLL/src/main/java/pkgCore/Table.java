@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import pkgEnum.ePlayerIdentity;
+import pkgInterfaces.iPlayer;
+
 public class Table implements Serializable {
 
 	private UUID TableID;
@@ -35,6 +38,24 @@ public class Table implements Serializable {
 	public ArrayList<Player> GetTablePlayers() {
 
 		return new ArrayList<Player>(hmTablePlayer.values());
+	}
+	
+	public ArrayList<iPlayer> GetTablePlayers(UUID PlayerID)
+	{
+		ArrayList<iPlayer> iPlayers = new ArrayList<iPlayer>();
+		for (Player p: hmTablePlayer.values())
+		{
+			if (p.getPlayerID().equals(PlayerID))
+			{
+				p.seteIdent(ePlayerIdentity.ME);
+			}
+			else
+			{
+				p.seteIdent(ePlayerIdentity.OTHER);
+			}		
+			iPlayers.add(p);
+		}		
+		return iPlayers;
 	}
 
 }

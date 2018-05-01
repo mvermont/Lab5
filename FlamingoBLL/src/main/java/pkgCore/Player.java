@@ -3,12 +3,16 @@ package pkgCore;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class Player implements Serializable {
+import pkgEnum.ePlayerIdentity;
+import pkgInterfaces.*;
+
+public class Player implements Serializable, iPlayer {
 
 	private UUID PlayerID;
 	private String PlayerName;
 	private int iPlayerPosition;
 	private int iPokerClientID;
+	private ePlayerIdentity eIdent;
 	
 	public Player(String playerName, int iPokerClientID) {
 		
@@ -37,7 +41,14 @@ public class Player implements Serializable {
 	public void setiPokerClientID(int iPokerClientID) {
 		this.iPokerClientID = iPokerClientID;
 	}
-	
-	
-	
+	public ePlayerIdentity geteIdent() {
+		return eIdent;
+	}
+	public void seteIdent(ePlayerIdentity eIdent) {
+		this.eIdent = eIdent;
+	}
+	@Override
+	public boolean isME() {
+		return (eIdent == ePlayerIdentity.ME ? true : false);
+	}
 }
