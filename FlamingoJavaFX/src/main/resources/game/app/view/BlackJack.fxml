@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="mainAnchor" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.BlackJackController">
+<AnchorPane fx:id="mainAnchor" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.BlackJackController">
    <children>
       <BorderPane fx:id="OuterBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="618.0" style="-fx-background-color: green;">
          <bottom>
@@ -48,7 +54,7 @@
                            <children>
                               <FlowPane alignment="CENTER" prefHeight="46.0" prefWidth="158.0">
                                  <children>
-                                    <ToggleButton id="btnPos1SitLeave" fx:id="btnPos1SitLeave1" minWidth="65.0" mnemonicParsing="false" onAction="#btnSitLeave_Click" styleClass="togglebutton" text="Sit" />
+                                    <ToggleButton id="btnPos1SitLeave" fx:id="btnPos1SitLeave" minWidth="65.0" mnemonicParsing="false" onAction="#btnSitLeave_Click" styleClass="togglebutton" text="Sit" />
                                     <ImageView id="imgViewDealerButtonPos1" fx:id="imgViewDealerButtonPos31" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../../../resources/img/d-button.png" />
@@ -61,7 +67,7 @@
                               </FlowPane>
                            </children>
                         </HBox>
-                        <Label id="lblPlayerPos3" fx:id="lblPlayerPos21" text="Player 1" />
+                        <Label id="lblPlayerPos3" fx:id="lblNameP1" text="Player 1" />
                      </children>
                   </GridPane>
                </children>
@@ -166,7 +172,7 @@
                               </FlowPane>
                            </children>
                         </HBox>
-                        <Label id="lblPlayerPos3" fx:id="lblPlayerPos2" text="Player 2" />
+                        <Label id="lblPlayerPos3" fx:id="lblNameP2" text="Player 2" />
                      </children>
                   </GridPane>
                </children>

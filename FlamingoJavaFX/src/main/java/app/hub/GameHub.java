@@ -6,10 +6,12 @@ import netgame.common.Hub;
 import pkgCore.Action;
 import pkgCore.Table;
 import pkgEnum.eAction;
+import pkgEnum.eGameType;
 
 public class GameHub extends Hub {
 
-	Table HubPokerTable = null;
+	private Table HubPokerTable = null;
+	private eGameType eGameType = null;
 
 	public GameHub(int port) throws IOException {
 		super(port);
@@ -27,20 +29,32 @@ public class GameHub extends Hub {
 		if (message instanceof Action) {
 			
 			Action a = (Action)message;
-				
-			
-			
 
-			switch (a.getAction()) {
+			switch (a.geteAction()) {
 			case Sit:
-				HubPokerTable.AddPlayerToTable(a.getPlayer());
+				HubPokerTable.AddPlayerToTable(a.getActPlayer());
+				resetOutput();
 				sendToAll(HubPokerTable);				
 				break;
 			case Leave:
-				HubPokerTable.RemovePlayerFromTable(a.getPlayer());
+				HubPokerTable.RemovePlayerFromTable(a.getActPlayer());
+				resetOutput();
 				sendToAll(HubPokerTable);
 				break;
+			case TableState:
+				resetOutput();
+				sendToAll(HubPokerTable);
+			case GameState:
+				//TODO: Implement this
+				break;
+			case StartGame:
+				//TODO: Implement this
+				break;
+			case Draw:
+				//TODO: Implement this
+				break;
 			}
+				
 
 
 		}

@@ -17,6 +17,8 @@ public abstract class GamePlay {
 	private HashMap<UUID, Player> hmGamePlayers = new HashMap<UUID, Player>();
 	private HashMap<GamePlayerHand, Hand> hmGameHands = new HashMap<GamePlayerHand, Hand>();
 	private Deck dGameDeck;
+	private Rule rle; 
+	
 	public GamePlay(eGameType eGameType, HashMap<UUID, Player> hmTablePlayers, Deck dGameDeck) {
 
 		// Set the GameID
@@ -37,6 +39,7 @@ public abstract class GamePlay {
 		switch (eGameType) {
 		case BLACKJACK:
 			//TODO: Set the game deck to the existing passed-in deck
+			rle = new Rule(eGameType);
 			break;
 		case POKER:
 			//TODO: Set the game deck to a brand new deck

@@ -1,7 +1,10 @@
 package app.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 import app.Flamingo;
 import javafx.animation.FadeTransition;
@@ -20,6 +23,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -53,6 +57,13 @@ public class BlackJackController implements Initializable {
 
 	@FXML
 	private Label lblNameP1;
+	@FXML
+	private Label lblNameP2;
+
+	@FXML
+	private ToggleButton btnPos1SitLeave;
+	@FXML
+	private ToggleButton btnPos2SitLeave;
 
 	private int iAnimationLength = 250;
 
@@ -85,65 +96,64 @@ public class BlackJackController implements Initializable {
 			break;
 		}
 
-
 		SequentialTransition seqDealTable = new SequentialTransition();
-		
-		
-		//	Transitions work by moving an item from 'Point A' to 'Point B'.
-		//		pntDeck = Point A
-		//		pntCardDealt = Point B
-		//	the code below will figure out where Point A and Point B are on the scene
-		
+
+		// Transitions work by moving an item from 'Point A' to 'Point B'.
+		// pntDeck = Point A
+		// pntCardDealt = Point B
+		// the code below will figure out where Point A and Point B are on the scene
+
 		Point2D pntCardDealt = null;
 
 		pntCardDealt = FindPoint(getCardHBox(iPosition), iDrawCard);
 
 		Point2D pntDeck = FindPoint(hBoxDeck, 0);
-		
-		
-		
-		//	Create a brand animation new image, drop it on the main screen.  The new image will be:
-		//		* created
-		//		* transitioned
-		//		* removed
-		
-		//	Create the animation image and put it on the main scene:
+
+		// Create a brand animation new image, drop it on the main screen. The new image
+		// will be:
+		// * created
+		// * transitioned
+		// * removed
+
+		// Create the animation image and put it on the main scene:
 		final ImageView img = BuildImage(0);
 		img.setX(pntDeck.getX());
 		img.setY(pntDeck.getY() - 33);
 		ImageView imgDealCard = BuildImage(11);
 		mainAnchor.getChildren().add(img);
 
-		//	Create the Translation transition (we're using a Path, but this is how you do a translate):
+		// Create the Translation transition (we're using a Path, but this is how you do
+		// a translate):
 		TranslateTransition transT = CreateTranslateTransition(pntDeck, pntCardDealt, img);
-		
-		//	Create a Rotate transition
+
+		// Create a Rotate transition
 		RotateTransition rotT = CreateRotateTransition(img);
-		
-		//	Create a Scale transition (we're not using it, but this is how you do it)
+
+		// Create a Scale transition (we're not using it, but this is how you do it)
 		ScaleTransition scaleT = CreateScaleTransition(img);
-		
-		//	Create a Path transition
+
+		// Create a Path transition
 		PathTransition pathT = CreatePathTransition(pntDeck, pntCardDealt, img);
 
-		//	Create a new Parallel transition.
+		// Create a new Parallel transition.
 		ParallelTransition patTMoveRot = new ParallelTransition();
-		
-		//	Add transitions you want to execute currently to the parallel transition
+
+		// Add transitions you want to execute currently to the parallel transition
 		patTMoveRot.getChildren().addAll(rotT, pathT);
 		// patTMoveRot.getChildren().addAll(pathT, rotT);
 
-		//	Create a new Parallel transition to fade in/fade out
+		// Create a new Parallel transition to fade in/fade out
 		ParallelTransition patTFadeInFadeOut = createFadeTransition(
 				(ImageView) getCardHBox(iPosition).getChildren().get(iDrawCard), imgDealCard.getImage());
 
-		//	Create a new sequential transition
+		// Create a new sequential transition
 		SequentialTransition seqDeal = new SequentialTransition();
 
-		//	Add the two parallel transitions to the sequential transition
+		// Add the two parallel transitions to the sequential transition
 		seqDeal.getChildren().addAll(patTMoveRot, patTFadeInFadeOut);
 
-		//	Set up event handler to remove the animation image after the transition is complete
+		// Set up event handler to remove the animation image after the transition is
+		// complete
 		seqDeal.setOnFinished(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent arg0) {
@@ -151,7 +161,7 @@ public class BlackJackController implements Initializable {
 			}
 		});
 
-		// 	Add the sequential transistion to the main sequential transision and play
+		// Add the sequential transistion to the main sequential transision and play
 		seqDealTable.getChildren().add(seqDeal);
 
 		seqDealTable.setInterpolator(Interpolator.EASE_OUT);
@@ -169,8 +179,6 @@ public class BlackJackController implements Initializable {
 
 	}
 
-
-
 	@FXML
 	public void btnStand_Click(ActionEvent event) {
 		System.out.println("Stand clicked");
@@ -187,6 +195,7 @@ public class BlackJackController implements Initializable {
 
 	@FXML
 	void btnStart_Click(ActionEvent event) {
+		
 
 		hboxP1Cards.getChildren().clear();
 		hboxP2Cards.getChildren().clear();
@@ -204,19 +213,30 @@ public class BlackJackController implements Initializable {
 
 	public void btnSitLeave_Click(ActionEvent event) {
 
-		Button btn = (Button) event.getSource();
+		ToggleButton btn = (ToggleButton) event.getSource();
 		System.out.println("Button was clicked");
 
 		Action a = new Action();
+		Player p = this.FlamingoGame.getAppPlayer();
 
-		if (btn.getText() == "Sit") {
-			a.setAction(eAction.Sit);
-		} else if (btn.getText() == "Leave") {
-			a.setAction(eAction.Leave);
-
+		if (btn.getText().equals("Sit")) {
+			a.seteAction(eAction.Sit);
+		} else if (btn.getText().equals("Leave")) {
+			a.seteAction(eAction.Leave);
 		}
 
-		a.setPlayer(this.FlamingoGame.getAppPlayer());
+		switch (btn.getId()) {
+		case "btnPos1SitLeave":
+			p.setiPlayerPosition(1);
+			break;
+
+		case "btnPos2SitLeave":
+			p.setiPlayerPosition(2);
+			break;
+		}
+		FlamingoGame.setAppPlayer(p);
+
+		a.setActPlayer(p);
 
 		this.FlamingoGame.messageSend(a);
 
@@ -263,11 +283,66 @@ public class BlackJackController implements Initializable {
 
 	public void HandleTableState(Table t) {
 
+		btnPos1SitLeave.setText("Sit");
+		btnPos1SitLeave.setVisible(true);
+		btnPos2SitLeave.setText("Sit");
+		btnPos2SitLeave.setVisible(true);
+		lblNameP1.setText("");
+		lblNameP2.setText("");
+
 		Platform.runLater(() -> {
 
-			lblNameP1.setText(FlamingoGame.getAppPlayer().getPlayerName());
+			boolean bCurrentPlayerSeated = false;
 
+			for (Player TablePlayer : t.GetTablePlayers()) {
+				if (FlamingoGame.getAppPlayer().getPlayerID().equals(TablePlayer.getPlayerID())) {
+					bCurrentPlayerSeated = true;
+				}
+				else
+				{
+					GetPlayerSitLeaveButton(TablePlayer.getiPlayerPosition()).setVisible(false);
+				}
+				GetPlayerLabel(TablePlayer.getiPlayerPosition()).setText(TablePlayer.getPlayerName());
+			}
+
+			if (bCurrentPlayerSeated) {
+				GetPlayerSitLeaveButton(FlamingoGame.getAppPlayer().getiPlayerPosition()).setText("Leave");
+				for (ToggleButton tb : AllOtherSitLeaveButtons(FlamingoGame.getAppPlayer().getiPlayerPosition())) {
+					tb.setVisible(false);
+				}
+			}
 		});
+	}
+
+	private ArrayList<ToggleButton> AllOtherSitLeaveButtons(int iPlayerPosition) {
+
+		HashMap<Integer, ToggleButton> hmSitLeaveButtons = new HashMap<Integer, ToggleButton>();
+
+		hmSitLeaveButtons.put(1, btnPos1SitLeave);
+		hmSitLeaveButtons.put(2, btnPos2SitLeave);
+		hmSitLeaveButtons.remove(iPlayerPosition);
+
+		return new ArrayList<ToggleButton>(hmSitLeaveButtons.values());
+	}
+
+	private ToggleButton GetPlayerSitLeaveButton(int iPlayerPosition) {
+		switch (iPlayerPosition) {
+		case 1:
+			return btnPos1SitLeave;
+		case 2:
+			return btnPos2SitLeave;
+		}
+		return null;
+	}
+
+	private Label GetPlayerLabel(int iPlayerPosition) {
+		switch (iPlayerPosition) {
+		case 1:
+			return lblNameP1;
+		case 2:
+			return lblNameP2;
+		}
+		return null;
 	}
 
 	public void HandleGameState(GamePlay gp) {
@@ -287,9 +362,9 @@ public class BlackJackController implements Initializable {
 
 	private PathTransition CreatePathTransition(Point2D fromPoint, Point2D toPoint, ImageView img) {
 		Path path = new Path();
-		
-		//TODO: Fix the Path transition.  My Path looks terrible...  do something cool :)
-		
+
+		// TODO: Fix the Path transition. My Path looks terrible... do something cool :)
+
 		path.getElements().add(new MoveTo(fromPoint.getX(), fromPoint.getY()));
 		path.getElements().add(new CubicCurveTo(toPoint.getX() * 2, toPoint.getY() * 2, toPoint.getX() / 3,
 				toPoint.getY() / 3, toPoint.getX(), toPoint.getY()));

@@ -1,7 +1,9 @@
 package pkgCore;
 
 import pkgEnum.eAction;
+import pkgEnum.eGameType;
 import java.io.Serializable;
+
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -17,30 +19,37 @@ public class Action implements Serializable {
 	@XmlElement
 	private Player ActPlayer;
 	
+	@XmlElement
+	private eGameType eGameType;
+	
 	public Action()
 	{
 		
 	}
-	public Action(eAction eAction, Player player) {
+	public Action(eAction eAction, Player player, eGameType eGameType) {
 		super();
 		this.eAction = eAction;
 		this.ActPlayer = player;
+		this.eGameType = eGameType;
 	}
-
-
-	public eAction getAction() {
+	public eAction geteAction() {
 		return eAction;
 	}
-	
-	public void setAction(eAction action) {
-		eAction = action;
+	public void seteAction(eAction eAction) {
+		this.eAction = eAction;
 	}
-	public Player getPlayer() {
+	public Player getActPlayer() {
 		return ActPlayer;
 	}
-	public void setPlayer(Player player) {
-		this.ActPlayer = player;
+	public void setActPlayer(Player actPlayer) {
+		ActPlayer = actPlayer;
 	}
+	public eGameType geteGameType() {
+		return eGameType;
+	}
+
+
+	
 
 	
 }
