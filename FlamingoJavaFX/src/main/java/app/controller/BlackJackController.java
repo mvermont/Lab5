@@ -30,6 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.QuadCurveTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
@@ -132,26 +133,31 @@ public class BlackJackController implements Initializable {
 
 		// Create a Scale transition (we're not using it, but this is how you do it)
 		ScaleTransition scaleT = CreateScaleTransition(img);
+		ScaleTransition scaleT2 = CreateScaleTransition2(img);
 
 		// Create a Path transition
 		PathTransition pathT = CreatePathTransition(pntDeck, pntCardDealt, img);
 
 		// Create a new Parallel transition.
-		ParallelTransition patTMoveRot = new ParallelTransition();
+		ParallelTransition patTMove = new ParallelTransition();
+		ParallelTransition patTMove2 = new ParallelTransition();
 
 		// Add transitions you want to execute currently to the parallel transition
-		patTMoveRot.getChildren().addAll(rotT, pathT);
+		patTMove.getChildren().addAll(pathT);
 		// patTMoveRot.getChildren().addAll(pathT, rotT);
+		
 
 		// Create a new Parallel transition to fade in/fade out
 		ParallelTransition patTFadeInFadeOut = createFadeTransition(
 				(ImageView) getCardHBox(iPosition).getChildren().get(iDrawCard), imgDealCard.getImage());
 
+		patTMove2.getChildren().addAll(scaleT2, patTFadeInFadeOut);
+		
 		// Create a new sequential transition
 		SequentialTransition seqDeal = new SequentialTransition();
 
 		// Add the two parallel transitions to the sequential transition
-		seqDeal.getChildren().addAll(patTMoveRot, patTFadeInFadeOut);
+		seqDeal.getChildren().addAll(rotT, patTMove, scaleT, patTMove2);
 
 		// Set up event handler to remove the animation image after the transition is
 		// complete
@@ -367,9 +373,11 @@ public class BlackJackController implements Initializable {
 		// TODO: Fix the Path transition. My Path looks terrible... do something cool :)
 
 		path.getElements().add(new MoveTo(fromPoint.getX(), fromPoint.getY()));
-		path.getElements().add(new CubicCurveTo(toPoint.getX() * 2, toPoint.getY() * 2, toPoint.getX() / 3,
-				toPoint.getY() / 3, toPoint.getX(), toPoint.getY()));
+		//path.getElements().add(new CubicCurveTo(toPoint.getX() * 2, toPoint.getY() * 2, toPoint.getX() / 3,
+			//	toPoint.getY() / 3, toPoint.getX(), toPoint.getY()));
 		// path.getElements().add(new CubicCurveTo(0, 120, 0, 240, 380, 240));
+		path.getElements().add(new QuadCurveTo(toPoint.getX() * 2, toPoint.getY() * 2, 
+				toPoint.getX() + 30, toPoint.getY() + 30));
 		PathTransition pathTransition = new PathTransition();
 		pathTransition.setDuration(Duration.millis(750));
 		pathTransition.setPath(path);
@@ -391,12 +399,22 @@ public class BlackJackController implements Initializable {
 
 		return st;
 	}
+	
+	private ScaleTransition CreateScaleTransition2(ImageView img) {
+		ScaleTransition st = new ScaleTransition(Duration.millis(iAnimationLength), img);
+		st.setByX(-.25f);
+		st.setByY(-.25f);
+		st.setCycleCount((int) 1f);
+		st.setAutoReverse(true);
+
+		return st;
+	}
 
 	private RotateTransition CreateRotateTransition(ImageView img) {
 
 		RotateTransition rotateTransition = new RotateTransition(Duration.millis(iAnimationLength / 2), img);
 		rotateTransition.setByAngle(180F);
-		rotateTransition.setCycleCount(2);
+		rotateTransition.setCycleCount(3);
 		rotateTransition.setAutoReverse(false);
 
 		return rotateTransition;
